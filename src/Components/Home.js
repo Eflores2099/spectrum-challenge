@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { withRest } from '../Context/RestProvider'
+import { withListData } from '../Context/DataProvider'
 
 
 
@@ -20,18 +20,26 @@ class Home extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault()
-        this.props.getRest(this.state.userInput)
+        this.props.getListData(this.state.userInput)
         this.props.history.push('/ResultPage')
     }
 
     render() {
         return (
-            <div>
-                
+            <div className = "form">
+                <form onSubmit = {this.handleSubmit}>
+                    <input className = "user-input"
+                        type ="text"
+                        name= "userInput"
+                        value = {this.state.userInput} 
+                        onChange = {this.handleChange}
+                        placeholder = "select a state" />
+                <button className = "button">Submit</button>  
+                </form>              
             </div>
         )
     }
 }
 
 
-export default withRest(Home)
+export default withListData(Home)

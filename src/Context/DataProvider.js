@@ -1,42 +1,86 @@
 import React, { Component } from 'react'
 import axios from 'axios'
+
 // import { render } from '@testing-library/react';
 
 const DataContext = React.createContext()
 const apiBaseUrl = "https://code-challenge.spectrumtoolbox.com/api/restaurants"
 const apiKey = process.env.REACT_APP_API_KEY
 
-
+let restaurants
 
 
 class DataProvider extends Component {
     constructor(props) {
         super(props)
         this.state = {
+                    setSearchtype: this.setSearchType,
+                    genreID: props.match.params._id || '',
+                    searchString: props.match.params._id || '',
+                    searchType: (typeof props.match.params._id === Number) ? 'genre' : (typeof props.match.params._id !== Number) ? errMsg: ""
 
+            }
+        }
+
+        getListData = async () => {
+            this.setState({
+                errMsg: ""
+            })
+
+            try {
+
+        if (this.state.searchType === "string" && this.state.searchString) {
+            restaurants = await axios.get(`${apiBaseUrl}${apiKey}/search.php?s=${this.state.searchString}`)
+
+            this.setState({
+                restaurants: restaurants.data.name,
+                searchString: ""
+            })
         }
          
+        this.setState({
+            searchType: "",
+
+        })
+
+    } catch (err) {
+
     }
 
+    setSearchType = (sType, id) => {
+        this.setState({
+            searchType: sType
+        })
+        if (sType === "genre") {
+            this.setState({
+                searchGenre: id
+            }, () => this.getListData())
+        }
+
+        if (sType === "string") {
+            this.setState({
+                searchString: id
+            }, () => this.getListData())
+        }
+    
 
 
-
-
-
-    render(){
+    render() {
         return (
-            <DataContext.Provider value = {{getData:
-                this.getData, restArr:
-                this.state.restArr,}}>
+            <DataContext.Provider 
+                value = {{
+                    ...this.state,
+                    getListData: this.getListData, 
+                }}>
                 {this.props.children}
             </DataContext.Provider>
         )
     }
 }
 
-export const withData = C => props => (
+export const withListData = C => props => (
     <DataContext.Consumer>
-        {value => <C {...props} {...value}/>}
+        {value => <C {...props} {...value} />}
     </DataContext.Consumer>
 )
 
