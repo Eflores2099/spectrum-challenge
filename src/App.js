@@ -5,30 +5,39 @@ import ResultPage from './Components/ResultPage'
 import { Switch, Route, withRouter} from 'react-router-dom'
 import {withListData } from './Context/DataProvider.js'
 import './App.css';
+// import { super } from '@babel/types';
 
 class App extends Component {
+  constructor() {
+    super()
+    this.state = {
+      userInput: "",
+    }
+  }
 
   componentDidMount() {
-    this.props.getListData()
+    // this.props.getListData()
+    document.title = 'Restaurant Search'
 }
 
 
 handleChange = (event) => {
   const { name, value } = event.target
-  this.setState({ [name]: value })
+  this.setState({ [name]: value 
+  })
 }
 
 
 handleSubmit = (event) => {
   event.preventDefault()
-  
-  this.props.setSearchType("string", this.state.searchString)
+  this.props.getByState(this.userInput)
+  this.props.history.push('/ResultPage')
+}
 
-  this.props.history.push(`/results/${this.state.searchString}`)
-
-  this.setState({
-      searchString: ''
-  })
+handleGenreSubmit = (event) => {
+  event.preventDefault()
+  this.props.getByGenre(this.state.userInput)
+  this.props.history.push('/ResultPage')
 }
 
 render () {
@@ -37,7 +46,12 @@ render () {
     <div id= "container">
       <NavBar />
       <form onSubmit={this.handleSubmit}>
-        <input type= 'text' name = 'searchString' value = {this.state.searchString} placeholder = "Search by State" onChange={this.handleChange} />
+        <input 
+        type= 'text' 
+        name = 'userInput' 
+        value = {this.state.userInput} 
+        placeholder = "Search by State" 
+        onChange={this.handleChange}/>
       </form>
 
 
