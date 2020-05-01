@@ -14,11 +14,11 @@ class DataProvider extends Component {
     constructor(props) {
         super(props)
         this.state = {
-                    setSearchtype: this.setSearchType,
-                    genreID: props.match.params._id || '',
+                    setSearchType: this.setSearchType,
+                    restByState: this.restByState ,                  
                     searchString: props.match.params._id || '',
-                    searchType: (typeof props.match.params._id === Number) ? 'genre' : (typeof props.match.params._id !== Number) ? errMsg: ""
-
+                    searchType: (typeof props.match.params._id === Number) ? 'genre' : (typeof props.match.params._id !== Number) ? 'string' : '',
+                    errMsg: ''
             }
         }
 
@@ -46,6 +46,8 @@ class DataProvider extends Component {
     } catch (err) {
 
     }
+}    
+
 
     setSearchType = (sType, id) => {
         this.setState({
@@ -63,7 +65,7 @@ class DataProvider extends Component {
             }, () => this.getListData())
         }
     
-
+    }
 
     render() {
         return (
@@ -77,6 +79,7 @@ class DataProvider extends Component {
         )
     }
 }
+
 
 export const withListData = C => props => (
     <DataContext.Consumer>

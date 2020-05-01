@@ -1,30 +1,37 @@
-import React from 'react'
-import {withData} from '../Context/DataProvider'
+import React, { Component } from 'react'
+import {withListData} from '../Context/DataProvider'
+// import { Link } from 'react-router-dom'
+// import { super } from '@babel/types';
 
-const ResultPage = () => {
-    const dataResults = props.restArr.map(restaurants => 
-        <div>
-            {restaurants.name}
-        </div>
-        )
+class ResultPage extends Component {
+    constructor(props) {
+        super(props) 
+        this.state = {
 
-        return (
-            <div>
-                {this.props.restArr[0].name.length ? 
-                <>
-                <h1>{name}</h1>
-                <h3>{city}</h3>
-                <h3>{state}</h3>
-                <h3>{phone}</h3>
-                </>
+        }   
+    }
 
-                    :<div className = "error-message">
-                        <h2>No Restaurants were found in this state. The locals just eat Grape Nuts Cereal.</h2>
-                     </div>   
-                }
-            </div>
-        )
+    componentDidMount() {
+        this.props.setSearchType("string", this.props.match.params._id)
+
+        document.title = "Search Results"
+    }
+
+render() {
+
+
+    return (
+        <main>
+
+            <h1>Search Results</h1>
+            <h2>{this.props.match.params._id}</h2>
+
+        </main>
+    )
+}
+
+
 
 }
 
-export default withData(ResultPage)
+export default withListData(ResultPage)
