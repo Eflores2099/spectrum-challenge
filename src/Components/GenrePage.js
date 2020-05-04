@@ -3,7 +3,7 @@ import {withListData} from '../Context/DataProvider'
 // import { Link } from 'react-router-dom'
 // import { super } from '@babel/types';
 
-class ResultPage extends Component {
+class GenrePage extends Component {
     constructor(props) {
         super(props) 
         this.state = {
@@ -12,9 +12,8 @@ class ResultPage extends Component {
     }
 
     renderTable() {
-        return this.state.restByState.sort.map((restaurant, index) => {
-            const { name, city, state, telephone, genre } = restaurant
-            console.log(this.props.restaurant)
+        return this.state.restByState.map((restaurant, index) => {
+            const { name, city, state, telephone, genre } = this.props.restaurant[0]
             return (
                 <tr>
                     <td>{name}</td>
@@ -44,4 +43,4 @@ class ResultPage extends Component {
 
 
 
-export default withListData(ResultPage)
+export default withListData(GenrePage)
