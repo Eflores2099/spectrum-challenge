@@ -36,6 +36,7 @@ class DataProvider extends Component {
     }
 
     getByState = (userInput) => {
+        console.log('get by restaurants by state.')
         axios.get(`${apiBaseUrl}${apiKey}?by_state=${userInput}`).then(response => {
             console.log(response)
             this.setState({
@@ -46,6 +47,8 @@ class DataProvider extends Component {
                     telephone: "",
                     genre: ""
                 }]
+            }).catch((error) => {
+                throw new Error(error)
             })
         })
     }
@@ -61,6 +64,8 @@ class DataProvider extends Component {
                     telephone: "",
                     genre: ""
                 }]
+            }).catch((error) => {
+                throw new Error(error)
             })
         })
     }
